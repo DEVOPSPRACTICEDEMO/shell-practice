@@ -1,6 +1,6 @@
 #!bin/bash
 
-person1=Trump
+person1=Trump # There should be no space before or after shell, if space is there it won't work.
 person2=Musk
 
 echo "$person1: Hey $person2, How are you!"
