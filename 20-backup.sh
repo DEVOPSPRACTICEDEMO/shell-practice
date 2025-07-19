@@ -70,6 +70,23 @@ then
     TIMESTAMP=$(date +%Y%m%d%H%M%S)
     ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip"
     echo -e $FILES | zip -@ $ZIP_FILE &>>$LOG_FILE
+
+    if [ -f $ZIP_FILE ]
+    then
+        echo -e "$G Backup created successfully at $ZIP_FILE $N" | tee -a $LOG_FILE
+        VALIDATE $? "Creating backup"
+
+        while IFS= read -r filepath
+        do
+            echo -e "$Y Deleting old log file: $filepath $N" | tee -a $LOG_FILE
+            rm -rf $filepath
+        done <<< "$FILES"
+
+        echo -e "$G Old log files deleted successfully from source directory $N" | tee -a $LOG_FILE
+    else
+        echo -e "$R ERROR:: Failed to create backup $N" | tee -a $LOG_FILE
+        exit 1
+    fi
 else
     echo -e "$Y No files older than $DAYS days found in $SOURCE_DIR $N" | tee -a $LOG_FILE
     exit 0      
