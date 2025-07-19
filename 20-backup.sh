@@ -15,20 +15,6 @@ G="\e[32m"
 Y="\e[33m" 
 N="\e[0m"
 
-check_root
-mkdir -p $LOGS_FOLDER
-
-USAGE(){
-    echo -e "$R USAGE:: $N sh 20-backup.sh <source-dir> <dest-dir> <days(optional)>"
-}  
-
-if [ # -lt 2 ]
-then
-    echo -e "$R ERROR:: Please provide source and destination directories $N" | tee -a $LOG_FILE
-    USAGE
-    exit 1
-fi
-
 # Function to validate command execution
 VALIDATE() {
     if [ $1 -eq 0 ]
@@ -49,4 +35,18 @@ check_root() {
         echo -e "$G You are running with root access $N" | tee -a $LOG_FILE
     fi
 }
+
+check_root
+mkdir -p $LOGS_FOLDER
+
+USAGE(){
+    echo -e "$R USAGE:: $N sh 20-backup.sh <source-dir> <dest-dir> <days(optional)>"
+}  
+
+if [ # -lt 2 ]
+then
+    echo -e "$R ERROR:: Please provide source and destination directories $N" | tee -a $LOG_FILE
+    USAGE
+    exit 1
+fi
 
