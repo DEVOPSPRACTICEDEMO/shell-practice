@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# a=0
+
+# while [ $a -lt 10 ]
+# do
+#   echo "Current value of a: $a"
+#   a=`expr $a + 1`
+# done
+
+#To read a file line by line
+
+while IFS=read -r line
+do
+  echo "Line: $line"
+done < "18-delete-old-logs.sh"
