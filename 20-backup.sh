@@ -50,3 +50,15 @@ then
     exit 1
 fi
 
+id [ ! -d $SOURCE_DIR ] 
+then 
+    echo -e "$R ERROR:: Source directory $SOURCE_DIR does not exist $N" | tee -a $LOG_FILE
+    exit 1
+fi
+
+if [ ! -d $DEST_DIR ]
+then
+    echo -e "$R destination directory $DEST_DIR does not exist $N" | tee -a $LOG_FILE
+    exit 1
+fi
+
