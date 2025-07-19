@@ -1,5 +1,6 @@
 #!/bin/bash
 
+USER_ID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
@@ -8,6 +9,9 @@ LOGS_FOLDER="/var/log/shellscript-logs"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 SOURCE_DIR=/home/ec2-user/app-logs
+
+# Create log directory if it doesn't exist
+mkdir -p $LOGS_FOLDER
 
 if [ $USERID -ne 0 ]
 then
@@ -27,9 +31,6 @@ VALIDATE(){
         exit 1
     fi
 }
-
-# Create log directory if it doesn't exist
-mkdir -p $LOGS_FOLDER
 
 echo -e "$Y Script started executing at: $(date) $N" | tee -a $LOG_FILE
 
