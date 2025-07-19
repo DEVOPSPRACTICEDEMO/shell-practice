@@ -64,17 +64,14 @@ fi
 
 FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS)
 
-if [ -z "$FILES" ]
+if [ ! -z "$FILES" ]
 then
-    echo -e "$Y No old log files found to backup $N" | tee -a $LOG_FILE
+    echo -e "Files to zip are : $FILES" | tee -a $LOG_FILE
+    TIMESTAMP=$(date +%Y%m%d%H%M%S)
+    ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip"
+    echo -e $FILES | zip -@ $ZIP_FILE &>>$LOG_FILE
 else
-    echo -e "$Y Backing up old log files to $DEST_DIR $N" | tee -a $LOG_FILE
-    while IFS= read -r filepath
-    do 
-        cp $filepath $DEST_DIR &>>$LOG_FILE
-        VALIDATE $? "Backing up file: $filepath"
-        rm -rf $filepath &>>$LOG_FILE
-        VALIDATE $? "Deleting file: $filepath"
-    done <<< "$FILES"
+    echo -e "$Y No files older than $DAYS days found in $SOURCE_DIR $N" | tee -a $LOG_FILE
+    exit 0      
 fi
 
