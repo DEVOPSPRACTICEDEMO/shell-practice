@@ -62,3 +62,19 @@ then
     exit 1
 fi
 
+FILES=$(find $SOURCE_DIR -name "*.log" -mtime +$DAYS)
+
+if [ -z "$FILES" ]
+then
+    echo -e "$Y No old log files found to backup $N" | tee -a $LOG_FILE
+else
+    echo -e "$Y Backing up old log files to $DEST_DIR $N" | tee -a $LOG_FILE
+    while IFS= read -r filepath
+    do 
+        cp $filepath $DEST_DIR &>>$LOG_FILE
+        VALIDATE $? "Backing up file: $filepath"
+        rm -rf $filepath &>>$LOG_FILE
+        VALIDATE $? "Deleting file: $filepath"
+    done <<< "$FILES"
+fi
+
