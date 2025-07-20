@@ -41,6 +41,7 @@ mkdir -p $LOGS_FOLDER
 
 USAGE(){
     echo -e "$R USAGE:: $N sh 20-backup.sh <source-dir> <dest-dir> <days(optional)>"
+    exit 1
 }  
 
 if [ $# -lt 2 ]
@@ -69,7 +70,7 @@ then
     echo -e "Files to zip are : $FILES" | tee -a $LOG_FILE
     TIMESTAMP=$(date +%Y%m%d%H%M%S)
     ZIP_FILE="$DEST_DIR/app-logs-$TIMESTAMP.zip"
-    echo -e $FILES | zip -@ $ZIP_FILE &>>$LOG_FILE
+    find $SOURCE_DIR -name "*.log" -mtime +$DAYS | zip -@ $ZIP_FILE &>>$LOG_FILE
 
     if [ -f $ZIP_FILE ]
     then
