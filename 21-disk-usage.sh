@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DISK_USAGE=(df -hT | grep -v Filesystem)
+DISK_USAGE=$(df -hT | grep -v Filesystem)
 DISK_THRESHOLD=1  # in projects it will be 75
 
 while
